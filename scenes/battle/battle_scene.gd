@@ -40,6 +40,26 @@ func _ready() -> void:
 	_start_battle()
 
 
+func _input(event: InputEvent) -> void:
+	if _busy or _selected_ability == null:
+		return
+	var pointer_pos := Vector2.ZERO
+	var pressed := false
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		pointer_pos = event.position
+		pressed = true
+	elif event is InputEventScreenTouch and event.pressed:
+		pointer_pos = event.position
+		pressed = true
+	if not pressed:
+		return
+	for idx in _selectable_targets:
+		if _views.has(idx) and _views[idx].hit_test(pointer_pos):
+			_on_combatant_tapped(idx)
+			get_viewport().set_input_as_handled()
+			return
+
+
 func _start_battle() -> void:
 	battle = BattleState.new()
 	var waves: Array = []

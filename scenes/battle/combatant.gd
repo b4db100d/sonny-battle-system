@@ -6,6 +6,7 @@ extends Area2D
 signal tapped(index: int)
 
 const BAR_WIDTH := 100.0
+const HITBOX_SIZE := Vector2(150, 190)
 
 var state: CombatantState
 var _body: Polygon2D
@@ -17,6 +18,7 @@ var _select_tween: Tween
 
 func setup(p_state: CombatantState) -> void:
 	state = p_state
+	input_pickable = true
 	_build()
 	refresh()
 
@@ -37,7 +39,7 @@ func _build() -> void:
 
 	var collision := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(150, 190)
+	rect.size = HITBOX_SIZE
 	collision.shape = rect
 	add_child(collision)
 
@@ -181,6 +183,11 @@ func show_floating_text(text: String, color: Color) -> void:
 	tween.tween_property(label, "position:y", label.position.y - 55.0, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(label, "modulate:a", 0.0, 0.7).set_delay(0.2)
 	tween.tween_callback(label.queue_free)
+
+
+func hit_test(global_point: Vector2) -> bool:
+	var local_point := to_local(global_point)
+	return Rect2(-HITBOX_SIZE * 0.5, HITBOX_SIZE).has_point(local_point)
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
