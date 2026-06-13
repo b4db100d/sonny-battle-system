@@ -269,6 +269,8 @@ func _show_victory() -> void:
 		lines.append("Credits: %d" % summary["credits"])
 	if summary["levels_gained"] > 0:
 		lines.append("Level up! Now level %d" % GameState.player["level"])
+	if summary.get("recruited", "") != "":
+		lines.append("%s joined your team!" % summary["recruited"])
 	for item_id in summary["drops"]:
 		var item: ItemData = Db.item(item_id)
 		lines.append("Loot: %s" % (item.display_name if item != null else item_id))

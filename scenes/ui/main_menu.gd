@@ -49,8 +49,48 @@ func _menu_button(text: String, handler: Callable) -> Button:
 
 
 func _on_new_game() -> void:
-	GameState.new_game()
-	SceneRouter.goto(SceneRouter.ZONE_MAP)
+	var overlay := ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.75)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 16)
+	center.add_child(column)
+
+	var title := Label.new()
+	title.text = "Select difficulty"
+	title.add_theme_font_size_override("font_size", 30)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(title)
+
+	var options := [
+		["Easy", GameState.DIFFICULTY_EASY],
+		["Normal", GameState.DIFFICULTY_NORMAL],
+		["Hard", GameState.DIFFICULTY_HARD],
+	]
+	for option in options:
+		var btn := _menu_button(option[0], _start_new_game.bind(option[1]))
+		column.add_child(btn)
+
+	var cancel := _menu_button("Cancel", overlay.queue_free)
+	column.add_child(cancel)
+
+
+func _start_new_game(difficulty: int) -> void:
+	GameState.new_game(difficulty)
+	SaveManager.save_game()
+	if FileAccess.file_exists("res://data/dialogue/intro.json"):
+		SceneRouter.goto("res://scenes/ui/dialogue_box.tscn", {
+			"dialogue_id": "intro",
+			"next_scene": SceneRouter.ZONE_MAP,
+		})
+	else:
+		SceneRouter.goto(SceneRouter.ZONE_MAP)
 
 
 func _on_continue() -> void:

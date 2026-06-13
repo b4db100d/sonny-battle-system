@@ -7,6 +7,20 @@ const DIFFICULTY_EASY := 0
 const DIFFICULTY_NORMAL := 1
 const DIFFICULTY_HARD := 2
 
+## Recruitable companions with fixed kits (referenced by StageData.recruit_ally_id).
+const ALLY_DEFS := {
+	"vela": {
+		"name": "Vela",
+		"abilities": ["strike", "static_bolt", "corrode"],
+		"color": "c77dff",
+	},
+	"brick": {
+		"name": "Brick",
+		"abilities": ["strike", "provoke", "mend"],
+		"color": "f4a261",
+	},
+}
+
 var slot: int = 1
 var difficulty: int = DIFFICULTY_NORMAL
 var player: Dictionary = {}
@@ -99,11 +113,16 @@ func apply_victory_rewards(defeated: Array, stage: StageData, rng: RngService) -
 	credits += earned_credits
 	for item_id in drops:
 		player["inventory"].append(item_id)
+	var recruited := ""
+	if first_clear and stage.recruit_ally_id != "" and ALLY_DEFS.has(stage.recruit_ally_id):
+		var def: Dictionary = ALLY_DEFS[stage.recruit_ally_id]
+		add_ally(def["name"], def["abilities"], def["color"])
+		recruited = def["name"]
 	if stage != null:
 		mark_stage_cleared(stage.id)
 	if levels > 0:
 		EventBus.player_leveled_up.emit(player["level"])
-	return {"xp": xp, "credits": earned_credits, "drops": drops, "levels_gained": levels, "first_clear": first_clear}
+	return {"xp": xp, "credits": earned_credits, "drops": drops, "levels_gained": levels, "first_clear": first_clear, "recruited": recruited}
 
 
 func enemy_stat_mult() -> float:
@@ -126,8 +145,26 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> void:
+	data = _normalize_json(data)
 	difficulty = int(data.get("difficulty", DIFFICULTY_NORMAL))
 	player = data.get("player", _new_player_profile())
 	allies = data.get("allies", [])
 	cleared_stage_ids = data.get("cleared_stage_ids", [])
 	credits = int(data.get("credits", 0))
+
+
+## JSON parses every number as float; saves only ever contain integers, so
+## whole-number floats are coerced back to int recursively.
+static func _normalize_json(value: Variant) -> Variant:
+	match typeof(value):
+		TYPE_FLOAT:
+			return int(value) if value == floorf(value) else value
+		TYPE_DICTIONARY:
+			var dict := {}
+			for key in value:
+				dict[key] = _normalize_json(value[key])
+			return dict
+		TYPE_ARRAY:
+			return value.map(_normalize_json)
+		_:
+			return value

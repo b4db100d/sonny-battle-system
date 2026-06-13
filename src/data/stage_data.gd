@@ -19,6 +19,8 @@ extends Resource
 @export var first_clear_item: ItemData
 ## Training stages are re-fightable grind nodes and never gate progression.
 @export var is_training: bool = false
+## Ally (see GameState.ALLY_DEFS) who joins after first clearing this stage.
+@export var recruit_ally_id: String = ""
 ## Stage that must be cleared before this one unlocks; "" = always available.
 @export var requires_stage_id: String = ""
 
