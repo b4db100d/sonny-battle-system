@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/claw.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "scrap_drone"
+display_name = "Scrap Drone"
+body_color = Color(0.55, 0.55, 0.6, 1)
+body_shape = 2
+level = 1
+strength = 4
+instinct = 2
+speed = 5
+vitality = 3
+abilities = [ExtResource("2")]
+ai_profile = 0
+xp_reward = 18
+credit_reward = 4
+loot_chance = 0.2
+loot_table = []

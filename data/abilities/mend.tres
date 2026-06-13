@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "mend"
+display_name = "Mend"
+description = "Repairs an ally, restoring health based on Instinct."
+tree_id = "bastion"
+tier = 1
+icon_color = Color(0.3, 0.85, 0.45, 1)
+focus_cost = 20
+cooldown = 1
+target_type = 1
+damage_type = 2
+power = 18.0
+scaling_stat = 2
+scaling_ratio = 1.5
+hit_count = 1
+status_chance = 1.0
+ai_weight = 1.4

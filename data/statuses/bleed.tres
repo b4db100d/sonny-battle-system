@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/status_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "bleed"
+display_name = "Bleed"
+description = "Takes physical damage at the start of each turn. Stacks up to 3 times."
+icon_color = Color(0.85, 0.15, 0.15, 1)
+is_debuff = true
+duration_turns = 3
+stacking = 1
+max_stacks = 3
+tick_timing = 0
+tick_power = 3.0
+tick_scaling_stat = 1
+tick_scaling_ratio = 0.25
+stat_mods = {}
+flags = Array[String]([])
+shield_amount = 0.0
