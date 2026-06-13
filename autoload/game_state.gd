@@ -48,6 +48,72 @@ func mark_stage_cleared(stage_id: String) -> void:
 		EventBus.stage_cleared.emit(stage_id)
 
 
+## Builds battle-ready CombatantStates for the player + recruited allies.
+func build_party() -> Array:
+	var party: Array = [_build_unit(player)]
+	for ally in allies:
+		party.append(_build_unit(ally))
+	return party
+
+
+func _build_unit(profile: Dictionary) -> CombatantState:
+	var ability_list: Array = []
+	for ability_id in profile.get("equipped_ability_ids", []):
+		var ability: Resource = Db.ability(ability_id)
+		if ability != null:
+			ability_list.append(ability)
+	var equip_items: Array = []
+	for slot in profile.get("equipped", {}):
+		var item: Resource = Db.item(profile["equipped"][slot])
+		if item != null:
+			equip_items.append(item)
+	var unit := CombatantState.from_profile(profile, ability_list, equip_items)
+	if profile.has("body_color_html"):
+		unit.body_color = Color.from_string(profile["body_color_html"], Color("3fd0c9"))
+	return unit
+
+
+func add_ally(name: String, ability_ids: Array, body_color_html: String) -> void:
+	var profile := _new_player_profile()
+	profile["name"] = name
+	profile["level"] = player["level"]
+	profile["equipped_ability_ids"] = ability_ids.duplicate()
+	profile["learned_ability_ids"] = ability_ids.duplicate()
+	profile["body_color_html"] = body_color_html
+	allies.append(profile)
+
+
+## Applies battle rewards to the whole party; returns a summary for the UI.
+func apply_victory_rewards(defeated: Array, stage: StageData, rng: RngService) -> Dictionary:
+	var xp := Loot.total_xp(defeated)
+	var earned_credits := Loot.total_credits(defeated)
+	var drops := Loot.roll_drops(defeated, rng)
+	var first_clear := stage != null and not is_stage_cleared(stage.id)
+	if first_clear:
+		xp += stage.first_clear_xp_bonus
+		if stage.first_clear_item != null:
+			drops.append(stage.first_clear_item.id)
+	var levels := Leveling.grant_xp(player, xp)
+	for ally in allies:
+		Leveling.grant_xp(ally, xp)
+	credits += earned_credits
+	for item_id in drops:
+		player["inventory"].append(item_id)
+	if stage != null:
+		mark_stage_cleared(stage.id)
+	if levels > 0:
+		EventBus.player_leveled_up.emit(player["level"])
+	return {"xp": xp, "credits": earned_credits, "drops": drops, "levels_gained": levels, "first_clear": first_clear}
+
+
+func enemy_stat_mult() -> float:
+	return [0.85, 1.0, 1.25][difficulty]
+
+
+func ai_temperature() -> float:
+	return [1.0, 0.5, 0.15][difficulty]
+
+
 func to_dict() -> Dictionary:
 	return {
 		"version": SAVE_VERSION,
