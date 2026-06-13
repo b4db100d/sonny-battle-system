@@ -1,32 +1,15 @@
-# Prerequisites
-*.d
+# Godot
+.godot/
+*.translation
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Local toolchain (downloaded by tools/setup_godot.sh)
+.godot-bin/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Build outputs
+build/
+*.apk
+*.aab
+*.keystore
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+# OS
+.DS_Store
