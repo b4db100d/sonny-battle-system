@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/data/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/r1.tres" id="2"]
+[ext_resource type="Resource" path="res://data/stages/r2.tres" id="3"]
+[ext_resource type="Resource" path="res://data/stages/r3.tres" id="4"]
+[ext_resource type="Resource" path="res://data/stages/r_training.tres" id="5"]
+[ext_resource type="Resource" path="res://data/stages/r_boss.tres" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = "refinery"
+display_name = "Drowned Refinery"
+order = 1
+theme_color = Color(0.176471, 0.301961, 0.25098, 1)
+description = "Half-sunk processing towers, still running on nobody's orders. The signal grows louder below the waterline."
+stages = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")]
+unlocked_by_zone_id = "vesper"

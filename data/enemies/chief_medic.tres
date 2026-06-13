@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/patch_up.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/shield_wall.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/zap.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/jolt.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "chief_medic"
+display_name = "Chief Medic"
+body_color = Color(0.301961, 0.713725, 0.67451, 1)
+body_shape = 4
+level = 18
+strength = 10
+instinct = 24
+speed = 13
+vitality = 16
+hp_mult = 0.65
+ai_profile = 2
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5")]
+xp_reward = 250
+credit_reward = 35
+loot_chance = 0.3
+loot_table = [{"item_id": "surgeon_gloves", "weight": 1.0}, {"item_id": "neural_crown", "weight": 1.0}]

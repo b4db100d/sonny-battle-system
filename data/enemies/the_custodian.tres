@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/shield_wall.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/suppress.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/patch_up.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "the_custodian"
+display_name = "The Custodian"
+body_color = Color(0.247059, 0.45098, 0.521569, 1)
+body_shape = 3
+level = 9
+strength = 10
+instinct = 12
+speed = 7
+vitality = 20
+hp_mult = 0.85
+ai_profile = 3
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5")]
+xp_reward = 280
+credit_reward = 60
+loot_chance = 0.5
+loot_table = [{"item_id": "mag_anchor", "weight": 1.0}]

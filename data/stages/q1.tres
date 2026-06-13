@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/security_exo.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/plague_hound.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/exo_frame.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "q1"
+zone_id = "quarantine"
+display_name = "Checkpoint Ruins"
+recommended_level = 10
+waves = [[ExtResource("2"), ExtResource("3")]]
+pre_dialogue_id = "z3_intro"
+first_clear_xp_bonus = 200
+first_clear_item = ExtResource("4")

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/suppress.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/claw.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "security_exo"
+display_name = "Security Exo"
+body_color = Color(0.376471, 0.490196, 0.545098, 1)
+body_shape = 0
+level = 10
+strength = 14
+instinct = 5
+speed = 8
+vitality = 14
+hp_mult = 0.65
+ai_profile = 0
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 110
+credit_reward = 18
+loot_chance = 0.3
+loot_table = [{"item_id": "exo_frame", "weight": 1.0}, {"item_id": "shock_gauntlets", "weight": 1.0}]

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "scrap_visor"
+display_name = "Scrap Visor"
+slot = 1
+rarity = 0
+level_req = 1
+stat_bonuses = {"instinct": 2}
+description = "Cracked lens, decent readouts."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "zap"
+display_name = "Zap"
+tree_id = ""
+icon_color = Color(0.392157, 0.709804, 0.964706, 1)
+target_type = 2
+damage_type = 1
+power = 9.0
+scaling_stat = 2
+scaling_ratio = 1.0
+focus_gain = 5
+description = "A quick discharge."

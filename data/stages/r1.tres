@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/refinery_drone.tres" id="2"]
+[ext_resource type="Resource" path="res://data/items/insulated_suit.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = "r1"
+zone_id = "refinery"
+display_name = "Flooded Gate"
+recommended_level = 5
+waves = [[ExtResource("2"), ExtResource("2")]]
+pre_dialogue_id = "z2_intro"
+first_clear_xp_bonus = 100
+first_clear_item = ExtResource("3")

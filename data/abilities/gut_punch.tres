@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/weaken.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "gut_punch"
+display_name = "Gut Punch"
+tree_id = ""
+icon_color = Color(0.737255, 0.666667, 0.643137, 1)
+focus_cost = 10
+cooldown = 2
+target_type = 2
+damage_type = 0
+power = 7.0
+scaling_stat = 1
+scaling_ratio = 0.9
+applies_status = ExtResource("2")
+ai_weight = 1.2
+description = "A winding blow that saps strength."

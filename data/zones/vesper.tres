@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/data/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/v1.tres" id="2"]
+[ext_resource type="Resource" path="res://data/stages/v2.tres" id="3"]
+[ext_resource type="Resource" path="res://data/stages/v3.tres" id="4"]
+[ext_resource type="Resource" path="res://data/stages/v_training.tres" id="5"]
+[ext_resource type="Resource" path="res://data/stages/v_boss.tres" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = "vesper"
+display_name = "Salvage Barge Vesper"
+order = 0
+theme_color = Color(0.168627, 0.227451, 0.301961, 1)
+description = "A rust-bitten salvage barge adrift on a chemical sea. You woke up here. Something else woke up first."
+stages = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")]

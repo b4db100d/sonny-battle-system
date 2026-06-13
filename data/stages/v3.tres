@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/oil_slug.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/scrap_drone.tres" id="3"]
+[ext_resource type="Resource" path="res://data/enemies/rust_hound.tres" id="4"]
+[ext_resource type="Resource" path="res://data/items/plate_vest.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "v3"
+zone_id = "vesper"
+display_name = "Engine Room"
+recommended_level = 3
+waves = [[ExtResource("2"), ExtResource("3")], [ExtResource("4"), ExtResource("4")]]
+requires_stage_id = "v2"
+pre_dialogue_id = "z1_mid"
+first_clear_xp_bonus = 80
+first_clear_item = ExtResource("5")

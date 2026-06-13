@@ -1,0 +1,21 @@
+{
+  "id": "intro",
+  "lines": [
+    {
+      "speaker": "???",
+      "text": "Power at four percent. Core integrity... acceptable. Wake up."
+    },
+    {
+      "speaker": "S-7",
+      "text": "...Where is this? Who\u2014"
+    },
+    {
+      "speaker": "Echo",
+      "text": "I'm Echo. Ship intelligence, what's left of one. You're Unit S-7, and you were cargo until ten minutes ago."
+    },
+    {
+      "speaker": "Echo",
+      "text": "Something in the hold woke before you did, and it isn't friendly. The exit is aft. Make yourself useful."
+    }
+  ]
+}

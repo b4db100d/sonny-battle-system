@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/data/zone_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/stages/s1.tres" id="2"]
+[ext_resource type="Resource" path="res://data/stages/s2.tres" id="3"]
+[ext_resource type="Resource" path="res://data/stages/s3.tres" id="4"]
+[ext_resource type="Resource" path="res://data/stages/s_training.tres" id="5"]
+[ext_resource type="Resource" path="res://data/stages/s_boss.tres" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = "spire"
+display_name = "Relay Spire"
+order = 3
+theme_color = Color(0.227451, 0.168627, 0.301961, 1)
+description = "The source. Every antenna for a hundred miles bends toward it like grass in wind."
+stages = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")]
+unlocked_by_zone_id = "quarantine"

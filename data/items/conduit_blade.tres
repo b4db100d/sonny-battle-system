@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "conduit_blade"
+display_name = "Conduit Blade"
+slot = 0
+rarity = 2
+level_req = 16
+stat_bonuses = {"strength": 8, "speed": 5}
+description = "Hums at the same pitch as the Spire."

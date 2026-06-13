@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "shock_baton"
+display_name = "Shock Baton"
+slot = 0
+rarity = 0
+level_req = 3
+stat_bonuses = {"strength": 4, "speed": 2}
+description = "Standard deck-crew sidearm."

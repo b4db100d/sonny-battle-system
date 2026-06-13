@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/corrosion.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "corrode"
+display_name = "Corrode"
+tree_id = "surge"
+tier = 1
+icon_color = Color(0.611765, 0.8, 0.396078, 1)
+focus_cost = 15
+cooldown = 1
+target_type = 2
+damage_type = 1
+power = 6.0
+scaling_stat = 2
+scaling_ratio = 0.6
+applies_status = ExtResource("2")
+ai_weight = 1.1
+description = "Sprays reactive acid that keeps burning."

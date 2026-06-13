@@ -1,0 +1,17 @@
+{
+  "id": "z1_mid",
+  "lines": [
+    {
+      "speaker": "Echo",
+      "text": "The engine room is crawling. Whatever signal woke you is coming from off-ship \u2014 these things are just... resonating with it."
+    },
+    {
+      "speaker": "S-7",
+      "text": "Resonating. Like me?"
+    },
+    {
+      "speaker": "Echo",
+      "text": "Let's hope not exactly like you."
+    }
+  ]
+}

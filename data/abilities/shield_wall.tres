@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/barrier.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "shield_wall"
+display_name = "Shield Wall"
+tree_id = ""
+icon_color = Color(0.301961, 0.815686, 0.882353, 1)
+focus_cost = 15
+cooldown = 3
+target_type = 1
+damage_type = 3
+power = 0.0
+scaling_stat = 0
+applies_status = ExtResource("2")
+ai_weight = 1.1
+description = "Raises a barrier on an ally."

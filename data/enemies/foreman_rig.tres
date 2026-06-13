@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/jolt.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/claw.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "foreman_rig"
+display_name = "Foreman Rig"
+body_color = Color(0.701961, 0.211765, 0.211765, 1)
+body_shape = 4
+level = 5
+strength = 8
+instinct = 4
+speed = 6
+vitality = 10
+hp_mult = 0.9
+ai_profile = 0
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 130
+credit_reward = 30
+loot_chance = 0.5
+loot_table = [{"item_id": "heavy_treads", "weight": 1.0}]

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/vapor_wraith.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/refinery_drone.tres" id="3"]
+[ext_resource type="Resource" path="res://data/enemies/corroded_welder.tres" id="4"]
+[ext_resource type="Resource" path="res://data/items/focus_rod.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "r2"
+zone_id = "refinery"
+display_name = "Condenser Row"
+recommended_level = 6
+waves = [[ExtResource("2"), ExtResource("3")], [ExtResource("4")]]
+requires_stage_id = "r1"
+post_dialogue_id = "z2_ally"
+recruit_ally_id = "vela"
+first_clear_xp_bonus = 140
+first_clear_item = ExtResource("5")

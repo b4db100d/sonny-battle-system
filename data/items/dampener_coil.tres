@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "dampener_coil"
+display_name = "Dampener Coil"
+slot = 5
+rarity = 1
+level_req = 10
+stat_bonuses = {"dodge": 0.05}
+description = "Bends incoming fire a half-degree wide."

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "heavy_treads"
+display_name = "Heavy Treads"
+slot = 3
+rarity = 0
+level_req = 4
+stat_bonuses = {"vitality": 4}
+description = "Planted like a bulkhead."

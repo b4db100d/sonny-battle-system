@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "cascade"
+display_name = "Cascade"
+tree_id = "surge"
+tier = 4
+icon_color = Color(0.494118, 0.341176, 0.760784, 1)
+focus_cost = 45
+cooldown = 4
+target_type = 4
+damage_type = 1
+power = 16.0
+scaling_stat = 2
+scaling_ratio = 1.1
+ai_weight = 1.4
+description = "A rolling storm of charge engulfs the field."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/shield_wall.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/suppress.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "spire_sentinel"
+display_name = "Spire Sentinel"
+body_color = Color(0.360784, 0.419608, 0.752941, 1)
+body_shape = 0
+level = 17
+strength = 18
+instinct = 12
+speed = 9
+vitality = 20
+hp_mult = 0.75
+ai_profile = 3
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 220
+credit_reward = 32
+loot_chance = 0.3
+loot_table = [{"item_id": "exo_frame", "weight": 1.0}, {"item_id": "aegis_node", "weight": 1.0}]

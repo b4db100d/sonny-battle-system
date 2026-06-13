@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "second_wind"
+display_name = "Second Wind"
+tree_id = "bastion"
+tier = 4
+icon_color = Color(0.647059, 0.839216, 0.654902, 1)
+focus_cost = 35
+cooldown = 3
+target_type = 1
+damage_type = 2
+power = 40.0
+scaling_stat = 2
+scaling_ratio = 2.2
+ai_weight = 1.5
+description = "A massive surge of repairs."

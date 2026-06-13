@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/scrap_drone.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "v_training"
+zone_id = "vesper"
+display_name = "Sparring Bay"
+recommended_level = 3
+waves = [[ExtResource("2"), ExtResource("2"), ExtResource("2")]]
+requires_stage_id = "v2"
+is_training = true

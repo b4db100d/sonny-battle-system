@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/status_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "frenzy"
+display_name = "Frenzy"
+icon_color = Color(1, 0.439216, 0.262745, 1)
+is_debuff = false
+duration_turns = 3
+stat_mods = {"strength": 0.35}
+description = "+35% Strength."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/gut_punch.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/war_howl.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "vanguard_exo"
+display_name = "Vanguard Exo"
+body_color = Color(0.270588, 0.352941, 0.392157, 1)
+body_shape = 0
+level = 19
+strength = 22
+instinct = 10
+speed = 12
+vitality = 22
+hp_mult = 0.75
+ai_profile = 0
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 260
+credit_reward = 36
+loot_chance = 0.3
+loot_table = [{"item_id": "conduit_blade", "weight": 1.0}, {"item_id": "breaker_maul", "weight": 1.0}]
