@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "phase_cloak"
+display_name = "Phase Cloak"
+slot = 2
+rarity = 2
+level_req = 15
+stat_bonuses = {"speed": 5, "dodge": 0.04}
+description = "Hard to hit what flickers."

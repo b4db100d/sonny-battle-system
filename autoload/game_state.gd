@@ -44,7 +44,7 @@ func _new_player_profile() -> Dictionary:
 		"xp": 0,
 		"stat_alloc": {"strength": 0, "instinct": 0, "speed": 0, "vitality": 0},
 		"unspent_stat_points": 0,
-		"unspent_skill_points": 0,
+		"unspent_skill_points": 1,  # one tree pick right away
 		"learned_ability_ids": [],
 		"equipped_ability_ids": ["strike"],
 		"equipped": {},   # slot name -> item id

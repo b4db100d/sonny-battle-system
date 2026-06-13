@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "overload_strike"
+display_name = "Overload Strike"
+tree_id = "havoc"
+tier = 2
+icon_color = Color(0.937255, 0.32549, 0.313725, 1)
+focus_cost = 22
+cooldown = 2
+target_type = 2
+damage_type = 0
+power = 9.0
+scaling_stat = 1
+scaling_ratio = 0.85
+hit_count = 2
+ai_weight = 1.2
+description = "Two rapid strikes in one action."

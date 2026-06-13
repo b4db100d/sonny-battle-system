@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/slow.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "suppress"
+display_name = "Suppress"
+tree_id = ""
+icon_color = Color(0.505882, 0.831373, 0.980392, 1)
+focus_cost = 12
+cooldown = 2
+target_type = 2
+damage_type = 1
+power = 5.0
+scaling_stat = 2
+scaling_ratio = 0.6
+applies_status = ExtResource("2")
+ai_weight = 1.2
+description = "Dampening fields slow the target."

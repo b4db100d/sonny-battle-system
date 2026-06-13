@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "weld_beam"
+display_name = "Weld Beam"
+tree_id = ""
+icon_color = Color(1, 0.654902, 0.14902, 1)
+focus_cost = 12
+cooldown = 1
+target_type = 2
+damage_type = 1
+power = 10.0
+scaling_stat = 2
+scaling_ratio = 1.2
+ai_weight = 1.1
+description = "A cutting torch turned weapon."

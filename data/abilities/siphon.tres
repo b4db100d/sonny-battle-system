@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "siphon"
+display_name = "Siphon"
+tree_id = ""
+icon_color = Color(0.301961, 0.713725, 0.67451, 1)
+focus_cost = 5
+cooldown = 2
+target_type = 2
+damage_type = 1
+power = 8.0
+scaling_stat = 2
+scaling_ratio = 0.9
+target_focus_change = -15
+focus_gain = 15
+ai_weight = 1.1
+description = "Drinks the target's focus."

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/status_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "dazed"
+display_name = "Dazed"
+icon_color = Color(1, 0.819608, 0.501961, 1)
+is_debuff = true
+duration_turns = 1
+description = "Reeling: loses its next turn."
+flags = Array[String](["stun"])

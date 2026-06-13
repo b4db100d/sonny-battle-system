@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/sump_horror.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/vapor_wraith.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/targeting_visor.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "r3"
+zone_id = "refinery"
+display_name = "Sump Tunnels"
+recommended_level = 7
+waves = [[ExtResource("2"), ExtResource("3")]]
+requires_stage_id = "r2"
+first_clear_xp_bonus = 160
+first_clear_item = ExtResource("4")

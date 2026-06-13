@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/jolt.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/siphon.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/war_howl.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "the_conductor"
+display_name = "The Conductor"
+body_color = Color(0.486275, 0.301961, 1, 1)
+body_shape = 4
+level = 22
+strength = 18
+instinct = 26
+speed = 14
+vitality = 34
+hp_mult = 1.0
+ai_profile = 1
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5")]
+xp_reward = 900
+credit_reward = 250
+loot_chance = 0.6
+loot_table = [{"item_id": "aegis_node", "weight": 1.0}]

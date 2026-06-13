@@ -8,6 +8,8 @@ var _detail_label: Label
 
 
 func _ready() -> void:
+	if GameState.player.is_empty():
+		GameState.new_game()
 	_build_static_ui()
 	_refresh()
 

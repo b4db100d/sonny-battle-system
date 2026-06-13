@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/status_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "bulwark"
+display_name = "Bulwark"
+icon_color = Color(0.564706, 0.643137, 0.682353, 1)
+is_debuff = false
+duration_turns = 2
+shield_amount = 20.0
+description = "Taunts enemies and absorbs 20 damage."
+flags = Array[String](["taunt", "shield"])

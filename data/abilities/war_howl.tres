@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/rally.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "war_howl"
+display_name = "War Howl"
+tree_id = ""
+icon_color = Color(1, 0.878431, 0.509804, 1)
+focus_cost = 20
+cooldown = 4
+target_type = 3
+damage_type = 3
+power = 0.0
+scaling_stat = 0
+applies_status = ExtResource("2")
+ai_weight = 1.1
+description = "A rallying cry."

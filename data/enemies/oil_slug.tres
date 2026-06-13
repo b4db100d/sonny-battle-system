@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/venom_spit.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/claw.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = "oil_slug"
+display_name = "Oil Slug"
+body_color = Color(0.243137, 0.290196, 0.239216, 1)
+body_shape = 2
+level = 2
+strength = 2
+instinct = 4
+speed = 3
+vitality = 6
+hp_mult = 0.55
+ai_profile = 1
+abilities = [ExtResource("2"), ExtResource("3")]
+xp_reward = 28
+credit_reward = 6
+loot_chance = 0.25
+loot_table = [{"item_id": "focus_rod", "weight": 1.0}, {"item_id": "plate_vest", "weight": 1.0}]

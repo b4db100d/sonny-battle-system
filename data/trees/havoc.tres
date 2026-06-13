@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AbilityTreeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_tree_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "havoc"
+display_name = "Havoc"
+theme_color = Color(0.937255, 0.32549, 0.313725, 1)
+description = "Physical destruction: burst damage, bleeds, and stuns."
+entries = [{"ability_id": "rend", "tier": 1, "level_req": 1}, {"ability_id": "crack", "tier": 1, "level_req": 2}, {"ability_id": "overload_strike", "tier": 2, "level_req": 4}, {"ability_id": "concuss", "tier": 2, "level_req": 6}, {"ability_id": "frenzy_skill", "tier": 3, "level_req": 9}, {"ability_id": "executioner", "tier": 4, "level_req": 13}]

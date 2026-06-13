@@ -274,7 +274,16 @@ func _show_victory() -> void:
 	for item_id in summary["drops"]:
 		var item: ItemData = Db.item(item_id)
 		lines.append("Loot: %s" % (item.display_name if item != null else item_id))
-	_show_panel("\n".join(lines), [["Continue", _leave_battle]])
+
+	var continue_action: Callable = _leave_battle
+	if stage != null and summary.get("first_clear", false) and stage.post_dialogue_id != "":
+		var dialogue_id: String = stage.post_dialogue_id
+		continue_action = func():
+			SceneRouter.goto("res://scenes/ui/dialogue_box.tscn", {
+				"dialogue_id": dialogue_id,
+				"next_scene": SceneRouter.ZONE_MAP,
+			})
+	_show_panel("\n".join(lines), [["Continue", continue_action]])
 
 
 func _show_defeat() -> void:

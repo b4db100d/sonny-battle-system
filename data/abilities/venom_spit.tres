@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/statuses/venom.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "venom_spit"
+display_name = "Venom Spit"
+tree_id = ""
+icon_color = Color(0.298039, 0.686275, 0.313725, 1)
+focus_cost = 10
+cooldown = 1
+target_type = 2
+damage_type = 1
+power = 4.0
+scaling_stat = 2
+scaling_ratio = 0.8
+applies_status = ExtResource("2")
+ai_weight = 1.2
+description = "A glob of caustic venom."

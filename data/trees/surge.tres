@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AbilityTreeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_tree_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "surge"
+display_name = "Surge"
+theme_color = Color(0.392157, 0.709804, 0.964706, 1)
+description = "Psy offense: nukes, damage over time, and focus theft."
+entries = [{"ability_id": "static_bolt", "tier": 1, "level_req": 1}, {"ability_id": "corrode", "tier": 1, "level_req": 3}, {"ability_id": "drain_pulse", "tier": 2, "level_req": 5}, {"ability_id": "chain_arc", "tier": 2, "level_req": 7}, {"ability_id": "mind_spike", "tier": 3, "level_req": 10}, {"ability_id": "cascade", "tier": 4, "level_req": 14}]

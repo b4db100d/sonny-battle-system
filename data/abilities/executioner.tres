@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "executioner"
+display_name = "Executioner"
+tree_id = "havoc"
+tier = 4
+icon_color = Color(0.717647, 0.109804, 0.109804, 1)
+focus_cost = 40
+cooldown = 4
+target_type = 2
+damage_type = 0
+power = 30.0
+scaling_stat = 1
+scaling_ratio = 1.8
+ai_weight = 1.5
+description = "A devastating finishing blow."

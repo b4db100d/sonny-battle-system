@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/bite.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/venom_spit.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "sump_horror"
+display_name = "Sump Horror"
+body_color = Color(0.301961, 0.4, 0.321569, 1)
+body_shape = 3
+level = 7
+strength = 11
+instinct = 4
+speed = 4
+vitality = 12
+hp_mult = 0.7
+ai_profile = 0
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 80
+credit_reward = 14
+loot_chance = 0.3
+loot_table = [{"item_id": "plate_vest", "weight": 1.0}, {"item_id": "heavy_treads", "weight": 1.0}, {"item_id": "mag_anchor", "weight": 1.0}]

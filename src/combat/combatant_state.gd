@@ -18,6 +18,8 @@ var extra_flat: Dictionary = {}
 
 var hp: float = 1.0
 var focus: float = 0.0
+## Max-HP scale (enemies only; see EnemyData.hp_mult).
+var hp_mult: float = 1.0
 var abilities: Array = []        # Array of AbilityData
 var cooldowns: Dictionary = {}   # ability_id -> turns remaining
 ## Active statuses: [{"data": StatusEffectData, "turns_left": int,
@@ -48,7 +50,9 @@ func derived() -> Dictionary:
 		for stat in data.stat_mods:
 			deltas[stat] = deltas.get(stat, 0.0) + float(data.stat_mods[stat]) * s["stacks"]
 	var effective := StatBlock.effective_primaries(primaries, {}, {}, deltas)
-	return StatBlock.derive(effective, level, extra_flat)
+	var d := StatBlock.derive(effective, level, extra_flat)
+	d["max_hp"] = maxf(1.0, d["max_hp"] * hp_mult)
+	return d
 
 
 func has_status(status_id: String) -> bool:
@@ -119,6 +123,7 @@ static func from_enemy(data: EnemyData, stat_mult: float = 1.0) -> CombatantStat
 		"speed": data.speed * stat_mult,
 		"vitality": data.vitality * stat_mult,
 	}
+	c.hp_mult = data.hp_mult
 	c.abilities = data.abilities
 	c.ai_profile = data.ai_profile
 	c.body_color = data.body_color

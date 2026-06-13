@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StatusEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/status_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "slow"
+display_name = "Slowed"
+icon_color = Color(0.505882, 0.831373, 0.980392, 1)
+is_debuff = true
+duration_turns = 2
+stat_mods = {"speed": -0.3}
+description = "-30% Speed."

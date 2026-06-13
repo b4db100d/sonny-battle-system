@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/zap.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/siphon.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = "vapor_wraith"
+display_name = "Vapor Wraith"
+body_color = Color(0.701961, 0.776471, 0.85098, 1)
+body_shape = 2
+level = 5
+strength = 4
+instinct = 10
+speed = 9
+vitality = 6
+hp_mult = 0.6
+ai_profile = 1
+abilities = [ExtResource("2"), ExtResource("3")]
+xp_reward = 55
+credit_reward = 10
+loot_chance = 0.25
+loot_table = [{"item_id": "focus_rod", "weight": 1.0}, {"item_id": "insulated_suit", "weight": 1.0}, {"item_id": "lucky_bolt", "weight": 1.0}]

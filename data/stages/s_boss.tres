@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/spire_sentinel.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/signal_husk.tres" id="3"]
+[ext_resource type="Resource" path="res://data/enemies/the_conductor.tres" id="4"]
+[ext_resource type="Resource" path="res://data/enemies/chief_medic.tres" id="5"]
+[ext_resource type="Resource" path="res://data/items/aegis_node.tres" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = "s_boss"
+zone_id = "spire"
+display_name = "The Conductor"
+recommended_level = 21
+waves = [[ExtResource("2"), ExtResource("3")], [ExtResource("4"), ExtResource("5")]]
+requires_stage_id = "s3"
+pre_dialogue_id = "z4_boss_pre"
+post_dialogue_id = "finale"
+first_clear_xp_bonus = 1000
+first_clear_item = ExtResource("6")

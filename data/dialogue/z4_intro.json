@@ -1,0 +1,17 @@
+{
+  "id": "z4_intro",
+  "lines": [
+    {
+      "speaker": "Echo",
+      "text": "The Relay Spire. The signal isn't coming from it, S-7. It's coming from something inside it, using the antennas like a throat."
+    },
+    {
+      "speaker": "S-7",
+      "text": "It's been calling me since the barge."
+    },
+    {
+      "speaker": "Vela",
+      "text": "Then let's go answer rudely."
+    }
+  ]
+}

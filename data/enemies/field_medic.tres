@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/patch_up.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/zap.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/shield_wall.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "field_medic"
+display_name = "Field Medic"
+body_color = Color(0.501961, 0.796078, 0.768627, 1)
+body_shape = 4
+level = 11
+strength = 6
+instinct = 16
+speed = 10
+vitality = 10
+hp_mult = 0.6
+ai_profile = 2
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 120
+credit_reward = 20
+loot_chance = 0.3
+loot_table = [{"item_id": "surgeon_gloves", "weight": 1.0}, {"item_id": "core_capacitor", "weight": 1.0}]

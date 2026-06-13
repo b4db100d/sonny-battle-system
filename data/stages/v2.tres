@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/scrap_drone.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/rust_hound.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/scrap_visor.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "v2"
+zone_id = "vesper"
+display_name = "Lower Decks"
+recommended_level = 2
+waves = [[ExtResource("2"), ExtResource("3")]]
+requires_stage_id = "v1"
+first_clear_xp_bonus = 60
+first_clear_item = ExtResource("4")

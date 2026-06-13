@@ -12,8 +12,8 @@ func _initialize() -> void:
 
 	for script_path in _discover():
 		var script: GDScript = load(script_path)
-		if script == null:
-			all_failures.append("%s: failed to load" % script_path)
+		if script == null or not script.can_instantiate():
+			all_failures.append("%s: failed to load/compile" % script_path)
 			continue
 		var case: RefCounted = script.new()
 		for method in case.get_method_list():

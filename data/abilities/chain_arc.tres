@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "chain_arc"
+display_name = "Chain Arc"
+tree_id = "surge"
+tier = 2
+icon_color = Color(0.309804, 0.764706, 0.968627, 1)
+focus_cost = 30
+cooldown = 3
+target_type = 4
+damage_type = 1
+power = 9.0
+scaling_stat = 2
+scaling_ratio = 0.7
+ai_weight = 1.2
+description = "Lightning leaps to every enemy."

@@ -1,0 +1,21 @@
+{
+  "id": "finale",
+  "lines": [
+    {
+      "speaker": "Echo",
+      "text": "Signal terminated. Every husk for a hundred miles just went quiet."
+    },
+    {
+      "speaker": "Vela",
+      "text": "So what now, S-7? You were built for its chorus and you ended the concert."
+    },
+    {
+      "speaker": "S-7",
+      "text": "Now? Whatever I choose. That's the whole point."
+    },
+    {
+      "speaker": "Echo",
+      "text": "Power at one hundred percent. Core integrity: yours. Welcome back."
+    }
+  ]
+}

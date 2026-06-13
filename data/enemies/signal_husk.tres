@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/zap.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/siphon.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/suppress.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "signal_husk"
+display_name = "Signal Husk"
+body_color = Color(0.623529, 0.658824, 0.854902, 1)
+body_shape = 2
+level = 16
+strength = 8
+instinct = 20
+speed = 13
+vitality = 14
+hp_mult = 0.65
+ai_profile = 1
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4")]
+xp_reward = 200
+credit_reward = 30
+loot_chance = 0.3
+loot_table = [{"item_id": "neural_crown", "weight": 1.0}, {"item_id": "overclock_chip", "weight": 1.0}]

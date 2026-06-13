@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "breaker_maul"
+display_name = "Breaker Maul"
+slot = 0
+rarity = 2
+level_req = 13
+stat_bonuses = {"strength": 11}
+description = "Made for hull plate. Works on hulls of all kinds."

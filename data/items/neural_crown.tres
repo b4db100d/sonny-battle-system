@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "neural_crown"
+display_name = "Neural Crown"
+slot = 1
+rarity = 2
+level_req = 14
+stat_bonuses = {"instinct": 8}
+description = "Whispers in frequencies you almost remember."

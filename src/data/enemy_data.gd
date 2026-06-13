@@ -15,6 +15,9 @@ enum BodyShape { BLOCK, SPIKE, ORB, WIDE, TALL }
 @export var instinct: int = 5
 @export var speed: int = 5
 @export var vitality: int = 5
+## Enemy HP multiplier: the shared HP formula has a large flat base that
+## suits player units; fodder runs ~0.5, elites ~0.8, bosses ~1.0.
+@export var hp_mult: float = 1.0
 
 ## Array of AbilityData (untyped for easy .tres authoring).
 @export var abilities: Array = []

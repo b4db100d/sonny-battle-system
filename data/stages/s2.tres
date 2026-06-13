@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StageData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/data/stage_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/enemies/spire_sentinel.tres" id="2"]
+[ext_resource type="Resource" path="res://data/enemies/vanguard_exo.tres" id="3"]
+[ext_resource type="Resource" path="res://data/items/conduit_blade.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = "s2"
+zone_id = "spire"
+display_name = "Sentinel Walk"
+recommended_level = 17
+waves = [[ExtResource("2"), ExtResource("3")]]
+requires_stage_id = "s1"
+first_clear_xp_bonus = 400
+first_clear_item = ExtResource("4")

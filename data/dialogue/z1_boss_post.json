@@ -1,0 +1,17 @@
+{
+  "id": "z1_boss_post",
+  "lines": [
+    {
+      "speaker": "Echo",
+      "text": "Launch is clear. The signal's source bearing puts it past the old refinery."
+    },
+    {
+      "speaker": "S-7",
+      "text": "I keep hearing it. Under everything. Like a name I almost remember."
+    },
+    {
+      "speaker": "Echo",
+      "text": "That's what worries me."
+    }
+  ]
+}

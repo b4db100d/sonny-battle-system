@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/data/enemy_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/slam.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/jolt.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/war_howl.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/gut_punch.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = "warden_khros"
+display_name = "Warden Khros"
+body_color = Color(0.54902, 0.227451, 0.227451, 1)
+body_shape = 4
+level = 14
+strength = 20
+instinct = 10
+speed = 11
+vitality = 28
+hp_mult = 0.9
+ai_profile = 0
+abilities = [ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5")]
+xp_reward = 500
+credit_reward = 120
+loot_chance = 0.5
+loot_table = [{"item_id": "overclock_chip", "weight": 1.0}]

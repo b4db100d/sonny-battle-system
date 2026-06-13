@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "purge"
+display_name = "Purge"
+tree_id = "bastion"
+tier = 3
+icon_color = Color(0.698039, 0.87451, 0.858824, 1)
+focus_cost = 20
+cooldown = 2
+target_type = 1
+damage_type = 2
+power = 10.0
+scaling_stat = 2
+scaling_ratio = 0.5
+dispel_count = 2
+description = "Cleanses two debuffs and lightly heals an ally."

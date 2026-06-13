@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "plate_vest"
+display_name = "Plate Vest"
+slot = 2
+rarity = 0
+level_req = 2
+stat_bonuses = {"vitality": 4}
+description = "Salvaged hull plating, crew-fitted."

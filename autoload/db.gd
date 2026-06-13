@@ -13,7 +13,9 @@ var trees: Dictionary = {}
 var _loaded := false
 
 
-func _ready() -> void:
+func _init() -> void:
+	# _init rather than _ready: headless -s runs use autoloads before the
+	# scene tree delivers _ready callbacks.
 	load_all()
 
 
