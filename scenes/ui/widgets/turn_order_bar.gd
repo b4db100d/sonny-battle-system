@@ -2,6 +2,8 @@ class_name TurnOrderBar
 extends HBoxContainer
 ## Top-center chips showing this round's acting order; current actor pulses.
 
+const Chrome := preload("res://src/ui/chrome.gd")
+
 var _chips: Dictionary = {}  # combatant index -> PanelContainer
 
 
@@ -12,18 +14,26 @@ func rebuild(order: Array, combatants: Array) -> void:
 	for idx in order:
 		var unit: CombatantState = combatants[idx]
 		var chip := PanelContainer.new()
-		var style := StyleBoxFlat.new()
-		style.bg_color = unit.body_color.darkened(0.4)
-		style.set_corner_radius_all(6)
-		style.content_margin_left = 10
-		style.content_margin_right = 10
-		style.content_margin_top = 4
-		style.content_margin_bottom = 4
-		chip.add_theme_stylebox_override("panel", style)
+		chip.add_theme_stylebox_override("panel",
+			Chrome.panel_style(
+				unit.body_color.darkened(0.68).lerp(Color("0d141c"), 0.18),
+				unit.body_color.lightened(0.22),
+				16, 2, 10, 0.24))
+
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		chip.add_child(row)
+
+		var dot := ColorRect.new()
+		dot.color = unit.body_color.lightened(0.18)
+		dot.custom_minimum_size = Vector2(10, 10)
+		row.add_child(dot)
+
 		var label := Label.new()
 		label.text = unit.display_name
-		label.add_theme_font_size_override("font_size", 14)
-		chip.add_child(label)
+		Chrome.apply_label(label, 14, Color("eef7ff"), 2)
+		row.add_child(label)
+
 		add_child(chip)
 		_chips[idx] = chip
 
@@ -32,5 +42,6 @@ func highlight(actor_index: int, combatants: Array) -> void:
 	for idx in _chips:
 		var unit: CombatantState = combatants[idx]
 		var chip: PanelContainer = _chips[idx]
-		chip.modulate = Color(1.6, 1.6, 1.2) if idx == actor_index else Color.WHITE
-		chip.modulate.a = 1.0 if unit.is_alive() else 0.35
+		chip.modulate = Color(1.18, 1.18, 1.08) if idx == actor_index else Color.WHITE
+		chip.scale = Vector2(1.05, 1.05) if idx == actor_index else Vector2.ONE
+		chip.modulate.a = 1.0 if unit.is_alive() else 0.32

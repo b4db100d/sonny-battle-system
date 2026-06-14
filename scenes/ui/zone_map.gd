@@ -1,10 +1,15 @@
 extends Control
 ## Campaign hub: zone tabs, stage grid, bottom bar to character sheet/menu.
 
+const Chrome := preload("res://src/ui/chrome.gd")
+
 var _zone_tabs: HBoxContainer
 var _stage_grid: GridContainer
+var _zone_title: Label
 var _zone_blurb: Label
 var _selected_zone_id := ""
+var _header_shell: PanelContainer
+var _grid_shell: PanelContainer
 
 
 func _ready() -> void:
@@ -39,7 +44,6 @@ func _zone_unlocked(zone: ZoneData) -> bool:
 	var gate: ZoneData = Db.zone(zone.unlocked_by_zone_id)
 	if gate == null or gate.stages.is_empty():
 		return true
-	# Unlocks when the gating zone's final (boss) stage is cleared.
 	var boss: StageData = _last_required_stage(gate)
 	return boss == null or GameState.is_stage_cleared(boss.id)
 
@@ -64,14 +68,13 @@ func _refresh() -> void:
 	for zone in _sorted_zones():
 		var tab := Button.new()
 		tab.text = zone.display_name
-		tab.custom_minimum_size = Vector2(200, 60)
-		tab.add_theme_font_size_override("font_size", 18)
 		var unlocked := _zone_unlocked(zone)
 		tab.disabled = not unlocked
+		Chrome.apply_button(tab, zone.theme_color, 18, Vector2(210, 60), zone.id != _selected_zone_id)
 		if zone.id == _selected_zone_id:
-			tab.modulate = zone.theme_color.lightened(0.5)
+			tab.scale = Vector2(1.03, 1.03)
 		if not unlocked:
-			tab.text += "  (locked)"
+			tab.text += "  [locked]"
 		tab.pressed.connect(func():
 			_selected_zone_id = zone.id
 			_refresh())
@@ -79,31 +82,43 @@ func _refresh() -> void:
 
 	var zone: ZoneData = Db.zone(_selected_zone_id)
 	if zone == null:
-		_zone_blurb.text = "No zones authored yet."
+		_zone_title.text = "No zones authored yet."
+		_zone_blurb.text = ""
 		return
+
+	var accent := zone.theme_color.lightened(0.4)
+	_header_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.05, 0.09, 0.12, 0.88), accent, 24, 2, 22, 0.32))
+	_grid_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.78), accent.darkened(0.15), 24, 2, 18, 0.24))
+
+	_zone_title.text = zone.display_name
+	_zone_title.add_theme_color_override("font_color", accent.lightened(0.15))
 	_zone_blurb.text = zone.description
+	_zone_blurb.add_theme_color_override("font_color", Color("9cb0c2"))
 
 	for stage in zone.stages:
-		_stage_grid.add_child(_stage_button(stage))
+		_stage_grid.add_child(_stage_button(stage, accent))
 
 
-func _stage_button(stage: StageData) -> Button:
+func _stage_button(stage: StageData, accent: Color) -> Button:
 	var button := Button.new()
-	button.custom_minimum_size = Vector2(280, 88)
-	button.add_theme_font_size_override("font_size", 18)
+	button.custom_minimum_size = Vector2(0, 116)
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	var cleared := GameState.is_stage_cleared(stage.id)
 	var unlocked := _stage_unlocked(stage)
-	var marker := ""
-	if stage.is_training:
-		marker = "[Training]  "
-	elif cleared:
-		marker = "[Cleared]  "
-	button.text = "%s%s\nRecommended Lv %d" % [marker, stage.display_name, stage.recommended_level]
+	var prefix := "TRAINING" if stage.is_training else ("CLEARED" if cleared else "MISSION")
+	button.text = "%s\n%s\nRecommended Lv %d" % [prefix, stage.display_name, stage.recommended_level]
+
 	if not unlocked:
+		button.text = "LOCKED\n%s" % stage.display_name
 		button.disabled = true
-		button.text = "Locked\n%s" % stage.display_name
+		Chrome.apply_button(button, Color("5a6672"), 18, Vector2.ZERO, true)
 	elif cleared and not stage.is_training:
-		button.modulate = Color(0.7, 0.9, 0.75)
+		Chrome.apply_button(button, accent.lerp(Color("72e4ad"), 0.35), 18, Vector2.ZERO)
+	else:
+		Chrome.apply_button(button, accent, 18, Vector2.ZERO, true)
+
 	button.pressed.connect(_on_stage_pressed.bind(stage))
 	return button
 
@@ -121,39 +136,87 @@ func _on_stage_pressed(stage: StageData) -> void:
 
 
 func _build_ui() -> void:
-	var bg := ColorRect.new()
-	bg.color = Color("101820")
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
+	_build_backdrop()
 
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	for side in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
-		margin.add_theme_constant_override(side, 20)
+	margin.add_theme_constant_override("margin_left", 28)
+	margin.add_theme_constant_override("margin_right", 28)
+	margin.add_theme_constant_override("margin_top", 22)
+	margin.add_theme_constant_override("margin_bottom", 22)
 	add_child(margin)
 
 	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 14)
+	column.add_theme_constant_override("separation", 16)
 	margin.add_child(column)
+
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 18)
+	column.add_child(top)
+
+	var title_block := VBoxContainer.new()
+	title_block.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_block.add_theme_constant_override("separation", 6)
+	top.add_child(title_block)
+
+	var eyebrow := Label.new()
+	eyebrow.text = "CAMPAIGN MAP"
+	Chrome.apply_label(eyebrow, 16, Color("85dfff"), 2)
+	title_block.add_child(eyebrow)
+
+	var title := Label.new()
+	title.text = "Choose the next engagement"
+	Chrome.apply_label(title, 34, Color("eff9ff"), 4)
+	title_block.add_child(title)
+
+	var profile := Label.new()
+	profile.text = "Unit S-7   |   Level %d   |   Credits %d" % [GameState.player.get("level", 1), GameState.credits]
+	Chrome.apply_label(profile, 18, Color("90a9bd"), 1)
+	title_block.add_child(profile)
+
+	var save_chip := Label.new()
+	save_chip.text = "Autosaves after battle"
+	Chrome.apply_label(save_chip, 16, Color("6f8598"), 1)
+	top.add_child(save_chip)
 
 	_zone_tabs = HBoxContainer.new()
 	_zone_tabs.add_theme_constant_override("separation", 10)
 	column.add_child(_zone_tabs)
 
+	_header_shell = PanelContainer.new()
+	_header_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.05, 0.09, 0.12, 0.88), Color("3fd0c9"), 24, 2, 22, 0.32))
+	column.add_child(_header_shell)
+
+	var header_col := VBoxContainer.new()
+	header_col.add_theme_constant_override("separation", 10)
+	_header_shell.add_child(header_col)
+
+	_zone_title = Label.new()
+	Chrome.apply_label(_zone_title, 30, Color("eff9ff"), 4)
+	header_col.add_child(_zone_title)
+
 	_zone_blurb = Label.new()
-	_zone_blurb.add_theme_font_size_override("font_size", 17)
-	_zone_blurb.add_theme_color_override("font_color", Color("9fb3c8"))
+	_zone_blurb.add_theme_font_size_override("font_size", 18)
 	_zone_blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(_zone_blurb)
+	_zone_blurb.add_theme_color_override("font_color", Color("9fb3c8"))
+	header_col.add_child(_zone_blurb)
+
+	_grid_shell = PanelContainer.new()
+	_grid_shell.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_grid_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.78), Color("2e5f71"), 24, 2, 18, 0.24))
+	column.add_child(_grid_shell)
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	column.add_child(scroll)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_grid_shell.add_child(scroll)
 
 	_stage_grid = GridContainer.new()
-	_stage_grid.columns = 4
-	_stage_grid.add_theme_constant_override("h_separation", 14)
-	_stage_grid.add_theme_constant_override("v_separation", 14)
+	_stage_grid.columns = 2
+	_stage_grid.add_theme_constant_override("h_separation", 16)
+	_stage_grid.add_theme_constant_override("v_separation", 16)
 	scroll.add_child(_stage_grid)
 
 	var bottom := HBoxContainer.new()
@@ -162,8 +225,7 @@ func _build_ui() -> void:
 
 	var character := Button.new()
 	character.text = "Character"
-	character.custom_minimum_size = Vector2(220, 64)
-	character.add_theme_font_size_override("font_size", 20)
+	Chrome.apply_button(character, Color("4bb0ff"), 20, Vector2(220, 64))
 	character.pressed.connect(func(): SceneRouter.goto(SceneRouter.CHARACTER_SHEET))
 	bottom.add_child(character)
 
@@ -173,8 +235,7 @@ func _build_ui() -> void:
 
 	var diff := Button.new()
 	diff.text = "Difficulty: %s" % ["Easy", "Normal", "Hard"][GameState.difficulty]
-	diff.custom_minimum_size = Vector2(220, 64)
-	diff.add_theme_font_size_override("font_size", 20)
+	Chrome.apply_button(diff, Color("ff9a63"), 20, Vector2(240, 64), true)
 	diff.pressed.connect(func():
 		GameState.difficulty = (GameState.difficulty + 1) % 3
 		diff.text = "Difficulty: %s" % ["Easy", "Normal", "Hard"][GameState.difficulty])
@@ -182,8 +243,7 @@ func _build_ui() -> void:
 
 	var save := Button.new()
 	save.text = "Save"
-	save.custom_minimum_size = Vector2(160, 64)
-	save.add_theme_font_size_override("font_size", 20)
+	Chrome.apply_button(save, Color("58d3b2"), 20, Vector2(160, 64), true)
 	save.pressed.connect(func():
 		SaveManager.save_game()
 		save.text = "Saved!"
@@ -192,9 +252,54 @@ func _build_ui() -> void:
 
 	var menu := Button.new()
 	menu.text = "Main Menu"
-	menu.custom_minimum_size = Vector2(200, 64)
-	menu.add_theme_font_size_override("font_size", 20)
+	Chrome.apply_button(menu, Color("70869c"), 20, Vector2(200, 64), true)
 	menu.pressed.connect(func():
 		SaveManager.save_game()
 		SceneRouter.goto(SceneRouter.MAIN_MENU))
 	bottom.add_child(menu)
+
+
+func _build_backdrop() -> void:
+	var bg := Control.new()
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(bg)
+
+	var sky := Chrome.gradient_rect(
+		[Color("03070c"), Color("0a131a"), Color("122332")],
+		Vector2(0.5, 0.0),
+		Vector2(0.5, 1.0),
+		[0.0, 0.6, 1.0])
+	sky.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.add_child(sky)
+
+	var wash := Chrome.gradient_rect(
+		[Color(0.0, 0.0, 0.0, 0.0), Color(0.25, 0.9, 0.86, 0.11), Color(0.0, 0.0, 0.0, 0.0)],
+		Vector2(0.0, 0.5),
+		Vector2(1.0, 0.5),
+		[0.0, 0.5, 1.0])
+	wash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.add_child(wash)
+
+	for i in range(5):
+		var plate := Panel.new()
+		plate.position = Vector2(-80 + i * 280, 90 + (i % 2) * 54)
+		plate.size = Vector2(260, 120)
+		plate.rotation_degrees = -8 + i * 4
+		plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		plate.add_theme_stylebox_override("panel",
+			Chrome.panel_style(Color(0.2, 0.86, 0.82, 0.04), Color(0.4, 0.95, 0.92, 0.08), 34, 1, 0, 0.0))
+		bg.add_child(plate)
+
+	var floor := ColorRect.new()
+	floor.color = Color(0.04, 0.08, 0.11, 0.86)
+	floor.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	floor.offset_top = -150
+	bg.add_child(floor)
+
+	for i in range(7):
+		var beam := ColorRect.new()
+		beam.color = Color(0.38, 0.91, 0.88, 0.05 if i % 2 == 0 else 0.03)
+		beam.position = Vector2(80 + i * 178, 0)
+		beam.size = Vector2(1, 720)
+		bg.add_child(beam)

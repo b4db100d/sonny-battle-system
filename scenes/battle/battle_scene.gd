@@ -3,9 +3,11 @@ extends Node2D
 ## lists that come back. All UI is built in code; battle.tscn is minimal.
 
 const CombatantScene := preload("res://scenes/battle/combatant.tscn")
+const Chrome := preload("res://src/ui/chrome.gd")
 
-const ALLY_SLOTS := [Vector2(265, 400), Vector2(165, 545), Vector2(380, 555)]
-const ENEMY_SLOTS := [Vector2(1015, 400), Vector2(1115, 545), Vector2(900, 555)]
+const VIEW_SIZE := Vector2(1280, 720)
+const ALLY_SLOTS := [Vector2(272, 390), Vector2(172, 538), Vector2(392, 552)]
+const ENEMY_SLOTS := [Vector2(1010, 390), Vector2(1112, 538), Vector2(892, 552)]
 
 var battle: BattleState
 var stage: StageData
@@ -17,6 +19,7 @@ var _enemy_slot_cursor := 0
 var _busy := false
 var _selected_ability: AbilityData
 var _selectable_targets: Array = []
+var _theme_color := Color("284353")
 
 var _ui: CanvasLayer
 var _turn_bar: TurnOrderBar
@@ -35,6 +38,7 @@ func _ready() -> void:
 		GameState.new_game()
 	stage = Db.stage(payload.get("stage_id", ""))
 	rng = RngService.new(payload.get("rng_seed", -1))
+	_theme_color = _zone_theme()
 
 	_build_ui()
 	_start_battle()
@@ -191,32 +195,32 @@ func _play_event(e: Dictionary) -> void:
 			var text := "-%d" % roundi(e["amount"])
 			if e.get("crit", false):
 				text += "!"
-			_views[e["target"]].show_floating_text(text, Color("ffd54f") if e.get("crit") else Color("ef5350"))
+			_views[e["target"]].show_floating_text(text, Color("ffd87b") if e.get("crit") else Color("ff7569"))
 			await _views[e["target"]].play_hit()
 		"dodge":
 			_views[e["target"]].show_floating_text("Dodge", Color("90caf9"))
 			await _wait(0.25)
 		"heal":
-			_views[e["target"]].show_floating_text("+%d" % roundi(e["amount"]), Color("81c784"))
+			_views[e["target"]].show_floating_text("+%d" % roundi(e["amount"]), Color("81f2b5"))
 			await _views[e["target"]].play_heal_flash()
 		"status_applied":
 			var status: StatusEffectData = Db.status(e["status_id"])
 			var status_name: String = status.display_name if status != null else e["status_id"]
-			_views[e["target"]].show_floating_text(status_name, Color("ce93d8"))
+			_views[e["target"]].show_floating_text(status_name, Color("d6a8ff"))
 			await _wait(0.3)
 		"status_tick":
 			if e["amount"] >= 0:
 				_views[e["target"]].show_floating_text("-%d" % roundi(e["amount"]), Color("ab47bc"))
 			else:
-				_views[e["target"]].show_floating_text("+%d" % roundi(-e["amount"]), Color("81c784"))
+				_views[e["target"]].show_floating_text("+%d" % roundi(-e["amount"]), Color("81f2b5"))
 			await _wait(0.3)
 		"shield_absorb":
-			_views[e["target"]].show_floating_text("Absorbed", Color("4dd0e1"))
+			_views[e["target"]].show_floating_text("Absorbed", Color("59e1ff"))
 		"death":
 			_log("%s is down" % battle.combatants[e["target"]].display_name)
 			await _wait(0.3)
 		"stunned":
-			_views[e["actor"]].show_floating_text("Stunned", Color("ffb74d"))
+			_views[e["actor"]].show_floating_text("Stunned", Color("ffb468"))
 			await _wait(0.35)
 		"pass":
 			_views[e["actor"]].show_floating_text("...", Color.WHITE)
@@ -329,7 +333,7 @@ func _show_panel(text: String, actions: Array) -> void:
 	_ui.add_child(_overlay)
 
 	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.6)
+	dim.color = Color(0, 0, 0, 0.72)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_overlay.add_child(dim)
 
@@ -338,23 +342,25 @@ func _show_panel(text: String, actions: Array) -> void:
 	_overlay.add_child(center)
 
 	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.05, 0.08, 0.11, 0.94), _theme_color.lightened(0.45), 28, 2, 24, 0.42))
 	center.add_child(panel)
+
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 16)
-	column.custom_minimum_size = Vector2(420, 0)
+	column.custom_minimum_size = Vector2(460, 0)
 	panel.add_child(column)
 
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override("font_size", 26)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	Chrome.apply_label(label, 26, Color("eef8ff"), 4)
 	column.add_child(label)
 
 	for action in actions:
 		var button := Button.new()
 		button.text = action[0]
-		button.custom_minimum_size = Vector2(0, 64)
-		button.add_theme_font_size_override("font_size", 22)
+		Chrome.apply_button(button, _theme_color.lightened(0.15), 22, Vector2(0, 64))
 		button.pressed.connect(action[1])
 		column.add_child(button)
 
@@ -362,58 +368,75 @@ func _show_panel(text: String, actions: Array) -> void:
 ## --- UI construction ---
 
 func _build_ui() -> void:
-	var bg := ColorRect.new()
-	var theme_color: Color = Db.zone(stage.zone_id).theme_color if stage != null and Db.zone(stage.zone_id) != null else Color("16222e")
-	bg.color = theme_color.darkened(0.55)
-	bg.position = Vector2(-400, -400)
-	bg.size = Vector2(2080, 1520)
-	bg.z_index = -10
-	add_child(bg)
-
-	var floor_line := ColorRect.new()
-	floor_line.color = Color(1, 1, 1, 0.06)
-	floor_line.position = Vector2(-400, 630)
-	floor_line.size = Vector2(2080, 1290)
-	floor_line.z_index = -9
-	add_child(floor_line)
+	_build_backdrop()
 
 	_ui = CanvasLayer.new()
 	add_child(_ui)
 
+	var top_shell := PanelContainer.new()
+	top_shell.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	top_shell.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	top_shell.offset_top = 14
+	top_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.82), _theme_color.lightened(0.28), 18, 2, 10, 0.28))
+	_ui.add_child(top_shell)
+
 	_turn_bar = TurnOrderBar.new()
-	_turn_bar.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	_turn_bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_turn_bar.offset_top = 12
 	_turn_bar.add_theme_constant_override("separation", 8)
-	_ui.add_child(_turn_bar)
+	top_shell.add_child(_turn_bar)
+
+	var left_shell := PanelContainer.new()
+	left_shell.position = Vector2(16, 18)
+	left_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.82), _theme_color.lightened(0.22), 22, 2, 14, 0.24))
+	_ui.add_child(left_shell)
 
 	_party_frames = VBoxContainer.new()
-	_party_frames.position = Vector2(16, 16)
-	_party_frames.add_theme_constant_override("separation", 8)
-	_ui.add_child(_party_frames)
+	_party_frames.add_theme_constant_override("separation", 10)
+	left_shell.add_child(_party_frames)
 
-	var bottom := Control.new()
-	bottom.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	bottom.offset_top = -132
-	_ui.add_child(bottom)
+	var stage_tag := PanelContainer.new()
+	stage_tag.position = Vector2(16, 202)
+	stage_tag.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.05, 0.09, 0.12, 0.78), _theme_color.lightened(0.18), 18, 1, 12, 0.18))
+	_ui.add_child(stage_tag)
+
+	var stage_label := Label.new()
+	stage_label.text = "%s  /  %s" % [_zone_name().to_upper(), _stage_name().to_upper()]
+	Chrome.apply_label(stage_label, 15, Color("dceefa"), 2)
+	stage_tag.add_child(stage_label)
+
+	var bottom_shell := PanelContainer.new()
+	bottom_shell.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	bottom_shell.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	bottom_shell.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	bottom_shell.offset_bottom = -12
+	bottom_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.86), _theme_color.lightened(0.22), 24, 2, 14, 0.28))
+	_ui.add_child(bottom_shell)
+
+	var bottom_content := VBoxContainer.new()
+	bottom_content.add_theme_constant_override("separation", 8)
+	bottom_shell.add_child(bottom_content)
+
+	var ability_prompt := Label.new()
+	ability_prompt.text = "EXECUTE ACTION"
+	Chrome.apply_label(ability_prompt, 14, _theme_color.lightened(0.48), 2)
+	bottom_content.add_child(ability_prompt)
 
 	_ability_bar = HBoxContainer.new()
-	_ability_bar.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	_ability_bar.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_ability_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_ability_bar.offset_bottom = -10
 	_ability_bar.add_theme_constant_override("separation", 10)
 	_ability_bar.visible = false
-	bottom.add_child(_ability_bar)
+	bottom_content.add_child(_ability_bar)
 
 	_pass_button = Button.new()
-	_pass_button.text = "Skip"
-	_pass_button.custom_minimum_size = Vector2(96, 64)
+	_pass_button.text = "Skip Turn"
+	Chrome.apply_button(_pass_button, Color("ff9f68"), 20, Vector2(156, 60), true)
 	_pass_button.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
-	_pass_button.offset_left = -112
-	_pass_button.offset_top = -80
-	_pass_button.offset_right = -16
-	_pass_button.offset_bottom = -16
+	_pass_button.offset_left = -174
+	_pass_button.offset_top = -78
+	_pass_button.offset_right = -18
+	_pass_button.offset_bottom = -18
 	_pass_button.visible = false
 	_pass_button.pressed.connect(_on_pass)
 	_ui.add_child(_pass_button)
@@ -421,32 +444,156 @@ func _build_ui() -> void:
 	_hint_label = Label.new()
 	_hint_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	_hint_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_hint_label.offset_top = 56
-	_hint_label.add_theme_font_size_override("font_size", 22)
-	_hint_label.add_theme_color_override("font_color", Color("ffe082"))
+	_hint_label.offset_top = 74
+	Chrome.apply_label(_hint_label, 20, Color("ffe082"), 3)
 	_hint_label.visible = false
 	_ui.add_child(_hint_label)
 
 	_cancel_button = Button.new()
-	_cancel_button.text = "Cancel"
-	_cancel_button.custom_minimum_size = Vector2(120, 56)
+	_cancel_button.text = "Cancel Targeting"
+	Chrome.apply_button(_cancel_button, Color("70869c"), 18, Vector2(170, 50), true)
 	_cancel_button.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	_cancel_button.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_cancel_button.offset_top = 96
+	_cancel_button.offset_top = 106
 	_cancel_button.visible = false
 	_cancel_button.pressed.connect(_on_cancel)
 	_ui.add_child(_cancel_button)
 
+	var log_shell := PanelContainer.new()
+	log_shell.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	log_shell.offset_left = -382
+	log_shell.offset_top = 16
+	log_shell.offset_right = -16
+	log_shell.offset_bottom = 124
+	log_shell.add_theme_stylebox_override("panel",
+		Chrome.panel_style(Color(0.04, 0.07, 0.1, 0.72), _theme_color.lightened(0.12), 18, 1, 12, 0.16))
+	_ui.add_child(log_shell)
+
 	_log_label = RichTextLabel.new()
-	_log_label.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_log_label.offset_left = -360
-	_log_label.offset_top = 12
-	_log_label.offset_right = -16
-	_log_label.offset_bottom = 110
 	_log_label.scroll_active = false
+	_log_label.fit_content = true
+	_log_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_log_label.add_theme_font_size_override("normal_font_size", 15)
-	_log_label.modulate.a = 0.85
-	_ui.add_child(_log_label)
+	_log_label.add_theme_color_override("default_color", Color("d7e6f2"))
+	_log_label.modulate.a = 0.92
+	log_shell.add_child(_log_label)
+
+
+func _build_backdrop() -> void:
+	var sky := Chrome.gradient_rect(
+		[
+			_theme_color.darkened(0.9).lerp(Color("020406"), 0.4),
+			_theme_color.darkened(0.72),
+			_theme_color.darkened(0.48).lerp(Color("183040"), 0.32),
+		],
+		Vector2(0.5, 0.0),
+		Vector2(0.5, 1.0),
+		[0.0, 0.62, 1.0])
+	sky.position = Vector2.ZERO
+	sky.size = VIEW_SIZE
+	sky.z_index = -40
+	add_child(sky)
+
+	var wash := Chrome.gradient_rect(
+		[
+			Color(0.0, 0.0, 0.0, 0.0),
+			Color(_theme_color.lightened(0.3).r, _theme_color.lightened(0.3).g, _theme_color.lightened(0.3).b, 0.16),
+			Color(1.0, 0.57, 0.4, 0.08),
+		],
+		Vector2(0.12, 0.12),
+		Vector2(0.86, 0.92),
+		[0.0, 0.52, 1.0])
+	wash.position = Vector2.ZERO
+	wash.size = VIEW_SIZE
+	wash.z_index = -39
+	add_child(wash)
+
+	_add_backdrop_plate(Vector2(-72, 58), Vector2(360, 124), Color(0.26, 0.92, 0.88, 0.08), -10.0, -38)
+	_add_backdrop_plate(Vector2(974, 84), Vector2(326, 116), Color(0.55, 0.82, 1.0, 0.08), 11.0, -38)
+	_add_backdrop_plate(Vector2(414, 438), Vector2(438, 144), Color(1.0, 0.58, 0.36, 0.07), -6.0, -37)
+
+	var skyline_far := Polygon2D.new()
+	skyline_far.color = _theme_color.darkened(0.78).lerp(Color("060d12"), 0.2)
+	skyline_far.z_index = -37
+	skyline_far.polygon = PackedVector2Array([
+		Vector2(0, 418), Vector2(96, 374), Vector2(176, 392), Vector2(280, 334),
+		Vector2(372, 380), Vector2(474, 312), Vector2(606, 366), Vector2(706, 286),
+		Vector2(826, 348), Vector2(930, 278), Vector2(1048, 338), Vector2(1182, 262),
+		Vector2(1280, 318), Vector2(1280, 720), Vector2(0, 720),
+	])
+	add_child(skyline_far)
+
+	var skyline_mid := Polygon2D.new()
+	skyline_mid.color = _theme_color.darkened(0.64).lerp(Color("091118"), 0.12)
+	skyline_mid.z_index = -36
+	skyline_mid.polygon = PackedVector2Array([
+		Vector2(0, 516), Vector2(104, 474), Vector2(182, 500), Vector2(282, 438),
+		Vector2(374, 488), Vector2(488, 414), Vector2(592, 466), Vector2(704, 392),
+		Vector2(824, 458), Vector2(936, 388), Vector2(1056, 446), Vector2(1172, 374),
+		Vector2(1280, 426), Vector2(1280, 720), Vector2(0, 720),
+	])
+	add_child(skyline_mid)
+
+	var floor := Polygon2D.new()
+	floor.color = Color(0.04, 0.08, 0.11, 0.95)
+	floor.z_index = -35
+	floor.polygon = PackedVector2Array([
+		Vector2(0, 448), Vector2(1280, 448), Vector2(1280, 720), Vector2(0, 720),
+	])
+	add_child(floor)
+
+	for i in range(9):
+		var x := 72 + i * 142
+		var beam := ColorRect.new()
+		beam.position = Vector2(x, 0)
+		beam.size = Vector2(1, 720)
+		beam.color = Color(0.42, 0.9, 0.87, 0.04 if i % 2 == 0 else 0.02)
+		beam.z_index = -34
+		add_child(beam)
+
+	for i in range(6):
+		var line := Line2D.new()
+		line.points = PackedVector2Array([
+			Vector2(640, 450),
+			Vector2(90 + i * 190, 720),
+		])
+		line.width = 1.0
+		line.default_color = Color(0.38, 0.88, 0.85, 0.08)
+		line.z_index = -34
+		add_child(line)
+
+	var horizon := ColorRect.new()
+	horizon.position = Vector2(0, 448)
+	horizon.size = Vector2(1280, 2)
+	horizon.color = Color(0.52, 0.96, 0.94, 0.12)
+	horizon.z_index = -34
+	add_child(horizon)
+
+
+func _add_backdrop_plate(pos: Vector2, size: Vector2, color: Color, angle: float, z: int) -> void:
+	var plate := Panel.new()
+	plate.position = pos
+	plate.size = size
+	plate.rotation_degrees = angle
+	plate.z_index = z
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plate.add_theme_stylebox_override("panel",
+		Chrome.panel_style(color, color.lightened(0.18), 42, 1, 0, 0.0))
+	add_child(plate)
+
+
+func _zone_theme() -> Color:
+	var zone := Db.zone(stage.zone_id) if stage != null else null
+	return zone.theme_color if zone != null else Color("284353")
+
+
+func _zone_name() -> String:
+	var zone := Db.zone(stage.zone_id) if stage != null else null
+	return zone.display_name if zone != null else "Sim"
+
+
+func _stage_name() -> String:
+	return stage.display_name if stage != null else "Skirmish"
 
 
 var _log_lines: Array[String] = []
